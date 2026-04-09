@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>氣泡排序法演示</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .pseudocode-container {
+            background-color: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        .pseudocode-line {
+            margin: 8px 0;
+            padding: 5px 0;
+        }
+        .array-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin: 40px 0;
+            height: 450px;
+            padding: 20px;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .array-element {
+            width: 50px;
+            margin: 0 8px;
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            color: white;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            min-height: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .array-element::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            border-radius: 8px 8px 0 0;
+        }
+        .comparing {
+            background: linear-gradient(145deg, #FF9800, #F57C00);
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+            animation: pulse 1s infinite;
+        }
+        .swapping {
+            background: linear-gradient(145deg, #F44336, #D32F2F);
+            transform: scale(1.2) translateY(-10px);
+            box-shadow: 0 12px 35px rgba(244, 67, 54, 0.5);
+            animation: shake 0.5s ease-in-out;
+        }
+        .sorted {
+            background: linear-gradient(145deg, #2196F3, #1976D2);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: scale(1.2) translateY(-10px); }
+            25% { transform: scale(1.2) translateY(-10px) translateX(-2px); }
+            75% { transform: scale(1.2) translateY(-10px) translateX(2px); }
+        }
+        .controls {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(248, 249, 250, 0.6);
+            border-radius: 15px;
+        }
+        .speed-control {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        .speed-control label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .speed-control input[type="range"] {
+            width: 200px;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .speed-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            padding: 12px 25px;
+            margin: 0 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        button:hover::before {
+            left: 100%;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        button:disabled {
+            background: linear-gradient(145deg, #cccccc, #bbb);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .indent-4 { margin-left: 120px; }
+        .keyword {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .function-name {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .variable {
+            color: #3498db;
+        }
+        .operator {
+            color: #9b59b6;
+        }
+        .comment {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        .line-number {
+            color: #bdc3c7;
+            margin-right: 20px;
+            font-weight: bold;
+            display: inline-block;
+            width: 30px;
+            text-align: right;
+        }
+        ul {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .pseudocode-line.highlight {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            padding-left: 16px;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>氣泡排序法演示</h1>
+
+    <div class="array-container" id="array-container"></div>
+
+    <div class="controls">
+        <button onclick="startSort()" id="startBtn">開始排序</button>
+        <button onclick="resetArray()" id="resetBtn">重置</button>
+        <button onclick="generateRandomArray()">隨機生成</button>
+        <div class="speed-control">
+            <label for="speed">動畫速度:</label>
+            <input type="range" id="speed" min="100" max="2000" value="1000" step="100">
+            <span id="speedValue">1秒</span>
+        </div>
+    </div>
+
+    <h2>演算法原理</h2>
+    <p>氣泡排序法（Bubble Sort）是一種簡單的排序演算法。它重複地走訪要排序的數列，一次比較兩個元素，如果它們的順序錯誤就把它們交換過來。走訪數列的工作是重複地進行直到沒有再需要交換，也就是說該數列已經排序完成。</p>
+    <p>這個演算法的名字由來是因為越小的元素會經由交換慢慢「浮」到數列的頂端。</p>
+
+    <h2>偽代碼</h2>
+    <div class="pseudocode-container">
+        <div class="pseudocode-line indent-0" id="line1">
+            <span class="line-number">1</span>
+            <span class="keyword">procedure</span> <span class="function-name">bubbleSort</span>(<span class="variable">A</span> : list of sortable items)
+        </div>
+        <div class="pseudocode-line indent-1" id="line2">
+            <span class="line-number">2</span>
+            <span class="variable">n</span> <span class="operator">=</span> length(<span class="variable">A</span>)
+        </div>
+        <div class="pseudocode-line indent-1" id="line3">
+            <span class="line-number">3</span>
+            <span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> 0 <span class="keyword">to</span> <span class="variable">n</span><span class="operator">-</span>1 <span class="keyword">do</span>
+        </div>
+        <div class="pseudocode-line indent-2" id="line4">
+            <span class="line-number">4</span>
+            <span class="keyword">for</span> <span class="variable">j</span> <span class="operator">=</span> 0 <span class="keyword">to</span> <span class="variable">n</span><span class="operator">-</span><span class="variable">i</span><span class="operator">-</span>1 <span class="keyword">do</span>
+        </div>
+        <div class="pseudocode-line indent-3" id="line5">
+            <span class="line-number">5</span>
+            <span class="keyword">if</span> <span class="variable">A</span>[<span class="variable">j</span>] <span class="operator">></span> <span class="variable">A</span>[<span class="variable">j</span><span class="operator">+</span>1] <span class="keyword">then</span>
+        </div>
+        <div class="pseudocode-line indent-4" id="line6">
+            <span class="line-number">6</span>
+            swap(<span class="variable">A</span>[<span class="variable">j</span>], <span class="variable">A</span>[<span class="variable">j</span><span class="operator">+</span>1])
+        </div>
+        <div class="pseudocode-line indent-3" id="line7">
+            <span class="line-number">7</span>
+            <span class="keyword">end if</span>
+        </div>
+        <div class="pseudocode-line indent-2" id="line8">
+            <span class="line-number">8</span>
+            <span class="keyword">end for</span>
+        </div>
+        <div class="pseudocode-line indent-1" id="line9">
+            <span class="line-number">9</span>
+            <span class="keyword">end for</span>
+        </div>
+        <div class="pseudocode-line indent-0" id="line10">
+            <span class="line-number">10</span>
+            <span class="keyword">end procedure</span>
+        </div>
+    </div>
+
+    <h2>複雜度分析</h2>
+    <ul>
+        <li><strong>時間複雜度：</strong></li>
+        <ul>
+            <li>最佳情況：O(n) - 當數列已經排序時</li>
+            <li>最壞情況：O(n²) - 當數列逆序時</li>
+            <li>平均情況：O(n²)</li>
+        </ul>
+        <li><strong>空間複雜度：</strong>O(1) - 原地排序，只需要常數額外空間</li>
+        <li><strong>穩定性：</strong>穩定排序 - 相等元素的相對順序不會改變</li>
+    </ul>
+
+    <div class="back-link">
+        <a href="index.html">回到首頁</a>
+    </div>
+
+    <script>
+        let array = [64, 34, 25, 12, 22, 11, 90];
+        let arrayElements = [];
+        let isSorting = false;
+        let currentStep = 0;
+        let animationSpeed = 1000; // 默認1秒
+
+        function initArray() {
+            const container = document.getElementById('array-container');
+            container.innerHTML = '';
+            arrayElements = [];
+            const maxValue = Math.max(...array);
+            for (let i = 0; i < array.length; i++) {
+                const element = document.createElement('div');
+                element.className = 'array-element';
+                element.textContent = array[i];
+                // 設置高度：最小25px，最大400px
+                const height = 25 + (array[i] / maxValue) * 375;
+                element.style.height = height + 'px';
+                container.appendChild(element);
+                arrayElements.push(element);
+            }
+        }
+
+        function generateRandomArray() {
+            if (isSorting) return;
+            array = [];
+            for (let i = 0; i < 7; i++) {
+                array.push(Math.floor(Math.random() * 100) + 1);
+            }
+            initArray();
+            highlightLine(null);
+        }
+
+        function updateSpeed() {
+            const speedInput = document.getElementById('speed');
+            const speedValue = document.getElementById('speedValue');
+            animationSpeed = parseInt(speedInput.value);
+            speedValue.textContent = (animationSpeed / 1000) + '秒';
+        }
+
+        document.getElementById('speed').addEventListener('input', updateSpeed);
+
+        function highlightLine(lineId) {
+            document.querySelectorAll('.pseudocode-line').forEach(line => line.classList.remove('highlight'));
+            if (lineId) {
+                const lineElement = document.getElementById(lineId);
+                if (lineElement) {
+                    lineElement.classList.add('highlight');
+                }
+            }
+        }
+
+        function bubbleSort() {
+            let n = array.length;
+            let i = 0;
+            let j = 0;
+            let swapped = false;
+
+            function step() {
+                if (i >= n - 1) {
+                    // 排序完成
+                    arrayElements.forEach(el => el.classList.add('sorted'));
+                    highlightLine(null);
+                    isSorting = false;
+                    document.getElementById('startBtn').disabled = false;
+                    document.getElementById('resetBtn').disabled = false;
+                    return;
+                }
+
+                if (j >= n - i - 1) {
+                    // 內層循環結束
+                    i++;
+                    j = 0;
+                    swapped = false;
+                    setTimeout(step, animationSpeed / 2);
+                    return;
+                }
+
+                // 比較
+                arrayElements[j].classList.add('comparing');
+                arrayElements[j + 1].classList.add('comparing');
+                highlightLine('line5');
+
+                setTimeout(() => {
+                    if (array[j] > array[j + 1]) {
+                        // 交換
+                        arrayElements[j].classList.add('swapping');
+                        arrayElements[j + 1].classList.add('swapping');
+                        highlightLine('line6');
+
+                        setTimeout(() => {
+                            let temp = array[j];
+                            array[j] = array[j + 1];
+                            array[j + 1] = temp;
+
+                            arrayElements[j].textContent = array[j];
+                            arrayElements[j + 1].textContent = array[j + 1];
+
+                            // 更新高度
+                            const maxValue = Math.max(...array);
+                            arrayElements[j].style.height = (25 + (array[j] / maxValue) * 375) + 'px';
+                            arrayElements[j + 1].style.height = (25 + (array[j + 1] / maxValue) * 375) + 'px';
+
+                            arrayElements[j].classList.remove('swapping', 'comparing');
+                            arrayElements[j + 1].classList.remove('swapping', 'comparing');
+
+                            swapped = true;
+                            j++;
+                            setTimeout(step, animationSpeed / 2);
+                        }, animationSpeed / 2);
+                    } else {
+                        arrayElements[j].classList.remove('comparing');
+                        arrayElements[j + 1].classList.remove('comparing');
+                        j++;
+                        setTimeout(step, animationSpeed / 2);
+                    }
+                }, animationSpeed);
+            }
+
+            step();
+        }
+
+        function startSort() {
+            if (isSorting) return;
+            isSorting = true;
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('resetBtn').disabled = true;
+            bubbleSort();
+        }
+
+        function resetArray() {
+            if (isSorting) return;
+            array = [64, 34, 25, 12, 22, 11, 90];
+            initArray();
+            highlightLine(null);
+        }
+
+        initArray();
+        updateSpeed();
+    </script>
+</body>
+</html>
