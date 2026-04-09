@@ -12,7 +12,7 @@
 
 ## 模擬頁面
 
-https://jia-yin.github.io/sort_report/
+[index.html](index.html)
 
 ## 一、排序演算法介紹
 
