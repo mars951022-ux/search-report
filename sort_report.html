@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序演算法分析報告</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+            background: #eef3f8;
+            color: #1f2937;
+            line-height: 1.75;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: clamp(2.25rem, 4vw, 3.5rem);
+            letter-spacing: -0.04em;
+        }
+        header p {
+            margin: 12px 0 0;
+            color: #475569;
+        }
+        .info {
+            margin: 24px 0;
+            padding: 22px 24px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
+        }
+        .info p {
+            margin: 8px 0;
+        }
+        .section {
+            margin-bottom: 36px;
+            padding: 28px 28px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.06);
+        }
+        .section h2 {
+            margin-top: 0;
+            font-size: 1.6rem;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 12px;
+        }
+        .section h3 {
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            color: #111827;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+        }
+        th, td {
+            padding: 14px 12px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        th {
+            background: #f8fafc;
+        }
+        ul {
+            margin: 0;
+            padding-left: 1.3rem;
+        }
+        .note {
+            margin-top: 16px;
+            color: #475569;
+            font-size: 0.96rem;
+        }
+        a.link {
+            color: #1d4ed8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a.link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>排序演算法分析報告</h1>
+            <p>本報告依據排序演算法介紹、複雜度分析、模擬設計、結果比較與心得撰寫。</p>
+        </header>
+
+        <section class="info">
+            <p>學號：11428208</p>
+            <p>姓名：蔡旻憲</p>
+            <p>模擬頁面：<a class="link" href="https://jia-yin.github.io/sort_report/" target="_blank">https://jia-yin.github.io/sort_report/</a></p>
+        </section>
+
+        <section class="section">
+            <h2>一、排序演算法介紹</h2>
+            <p>本報告介紹五種常見排序演算法：氣泡排序法、選擇排序法、插入排序法、合併排序法與快速排序法。每種演算法依據基本原理和執行方式進行說明，並概述適用情境。</p>
+
+            <h3>1. 氣泡排序法</h3>
+            <p>氣泡排序透過連續比較相鄰元素，將較大元素逐步推至序列末端。它是一種穩定排序，實作簡單，但平均與最壞時間複雜度較高。</p>
+
+            <h3>2. 選擇排序法</h3>
+            <p>選擇排序在未排序區中選出最小（或最大）元素，然後與當前位置交換。這種演算法交換次數較少，但仍需遍歷整個未排序區來尋找最小值。</p>
+
+            <h3>3. 插入排序法</h3>
+            <p>插入排序將每個元素依序插入已排序區域，類似整理手牌。當資料近似排序時效率較好，適合小型資料或部分已排序的輸入。</p>
+
+            <h3>4. 合併排序法</h3>
+            <p>合併排序使用分治策略，將序列拆分成兩半後排序，再合併結果。它具有穩定性與穩定時間複雜度，適合大型資料處理。</p>
+
+            <h3>5. 快速排序法</h3>
+            <p>快速排序同樣採分治，選取基準值（pivot）分割序列成左右兩個子序列，遞迴排序後合併。平均情況速度快，但最壞情況須注意基準值的選取。</p>
+        </section>
+
+        <section class="section">
+            <h2>二、複雜度分析</h2>
+            <p>以下表格整理五種排序演算法在時間與空間複雜度上的差異，並簡述其穩定性。</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>排序演算法</th>
+                        <th>最壞時間</th>
+                        <th>平均時間</th>
+                        <th>最佳時間</th>
+                        <th>空間複雜度</th>
+                        <th>穩定性</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>氣泡排序</td>
+                        <td>O(n²)</td>
+                        <td>O(n²)</td>
+                        <td>O(n)</td>
+                        <td>O(1)</td>
+                        <td>穩定</td>
+                    </tr>
+                    <tr>
+                        <td>選擇排序</td>
+                        <td>O(n²)</td>
+                        <td>O(n²)</td>
+                        <td>O(n²)</td>
+                        <td>O(1)</td>
+                        <td>不穩定</td>
+                    </tr>
+                    <tr>
+                        <td>插入排序</td>
+                        <td>O(n²)</td>
+                        <td>O(n²)</td>
+                        <td>O(n)</td>
+                        <td>O(1)</td>
+                        <td>穩定</td>
+                    </tr>
+                    <tr>
+                        <td>合併排序</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                        <td>O(n)</td>
+                        <td>穩定</td>
+                    </tr>
+                    <tr>
+                        <td>快速排序</td>
+                        <td>O(n²)</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                        <td>O(log n)</td>
+                        <td>通常不穩定</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">備註：選擇排序與插入排序在小規模資料或幾乎已排序資料上表現良好；合併排序適合穩定排序需求；快速排序則為實務中常用的高效排序。</p>
+        </section>
+
+        <section class="section">
+            <h2>三、模擬設計</h2>
+            <p>為觀察排序演算法的實際行為，設計三組不同規模的測試資料：n = 10、n = 100、n = 1000。透過統計比較每種演算法在不同資料分布下的比較次數與交換次數，並觀察最壞、最佳與平均情況的變化。</p>
+            <ul>
+                <li>資料集 A：隨機排列</li>
+                <li>資料集 B：近乎已排序</li>
+                <li>資料集 C：反向排序</li>
+            </ul>
+            <p>使用相同資料集進行模擬，並記錄每次排序的步驟與所需時間。這樣可以直接比較演算法在相同輸入下的效率差異。</p>
+        </section>
+
+        <section class="section">
+            <h2>四、結果比較</h2>
+            <p>根據模擬結果，可以整理出下列觀察：</p>
+            <ul>
+                <li>氣泡排序在n較小時能夠正常運作，但隨著n增加，執行時間與交換次數迅速成長，最差情況為O(n²)。</li>
+                <li>選擇排序比較穩定，交換次數少於氣泡排序，但仍需O(n²)比較；其優勢在於交換成本低。</li>
+                <li>插入排序在已排序或近似排序資料上表現優異，最壞情況為O(n²)，但最佳情況為O(n)。</li>
+                <li>合併排序在所有測試中維持O(n log n)的行為，對大型資料最為可靠，但需要額外空間。</li>
+                <li>快速排序平均表現最好，實務上對大多數資料都很有效；若遇到反向排序或基準值選取不當，則可能退化為O(n²)。</li>
+            </ul>
+            <p class="note">綜合比較後，若需要穩定排序且空間允許，建議使用合併排序；若追求速度且資料分布較隨機，快速排序為較佳選擇。</p>
+        </section>
+
+        <section class="section">
+            <h2>五、學習心得</h2>
+            <p>透過本次報告與模擬，對五種排序演算法的差異有更清楚理解。排序演算法不僅代表程式的正確性，還反映時間與空間成本；因此選擇合適的演算法會依據資料規模與分布而有所不同。</p>
+            <p>其中，插入排序對於小型或近似排序資料非常適合；合併排序與快速排序則為大型資料排序的主力。這次實作也提醒我，演算法的理論分析與實際模擬結果必須結合，才能得出更全面的評估。</p>
+        </section>
+    </div>
+</body>
+</html>
