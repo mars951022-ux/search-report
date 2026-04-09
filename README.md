@@ -12,7 +12,7 @@
 
 ## 模擬頁面
 
-[https://mars951022-ux.github.io/search-report/](index.html)
+[https://mars951022-ux.github.io/search-report/]
 
 ## 一、排序演算法介紹
 
