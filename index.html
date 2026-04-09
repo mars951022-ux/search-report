@@ -5,41 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>演算法演示首頁</title>
     <style>
+        :root {
+            color-scheme: light;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top, #f7fbff, #dbe9ff 40%, #d3e7f9 100%);
+            color: #1f2937;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f0f0f0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
             text-align: center;
         }
+
+        .page-shell {
+            width: min(100%, 960px);
+            padding: 36px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+            backdrop-filter: blur(14px);
+        }
+
+        .hero {
+            max-width: 720px;
+            margin: 0 auto 32px;
+        }
+
         h1 {
-            color: #333;
+            margin: 0 0 16px;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            letter-spacing: -0.04em;
+            line-height: 1.05;
         }
-        .link-container {
-            margin: 20px 0;
+
+        p {
+            margin: 0;
+            font-size: 1.05rem;
+            color: #475569;
+            line-height: 1.75;
         }
-        a {
+
+        .grid {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            margin-top: 32px;
+        }
+
+        .card {
+            padding: 22px 18px;
+            background: linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 22px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            box-shadow: 0 14px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 35px rgba(15, 23, 42, 0.16);
+            border-color: rgba(59, 130, 246, 0.26);
+        }
+
+        .card a {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 18px;
             text-decoration: none;
-            border-radius: 5px;
-            margin: 10px;
+            font-weight: 600;
+            color: #0f172a;
+            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 100%);
+            color: #ffffff;
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.15);
         }
-        a:hover {
-            background-color: #45a049;
+
+        .card a:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+        }
+
+        .note {
+            margin-top: 12px;
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        @media (max-width: 520px) {
+            .page-shell {
+                padding: 24px;
+            }
+
+            .card {
+                padding: 18px 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>歡迎來到演算法演示網站</h1>
-    <p>這裡提供各種演算法的動畫演示和程式碼解釋。</p>
-    <div class="link-container">
-        <a href="bubble_sort.html">氣泡排序法演示</a>
-        <a href="fast_sort.html">快速排序法演示</a>
-        <a href="selection_sort.html">選擇排序法演示</a>
-        <a href="insertion_sort.html">插入排序法演示</a>
-        <a href="merge_sort.html">合併排序法演示</a>
-    </div>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>探索排序演算法的動畫世界</h1>
+            <p>透過互動式示範，快速理解氣泡排序、快速排序、選擇排序、插入排序與合併排序的運作原理。</p>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <a href="bubble_sort.html">氣泡排序法演示</a>
+                <p class="note">逐步比較與交換，適合學習排序概念。</p>
+            </article>
+            <article class="card">
+                <a href="fast_sort.html">快速排序法演示</a>
+                <p class="note">分治策略，高效率排序演算法。</p>
+            </article>
+            <article class="card">
+                <a href="selection_sort.html">選擇排序法演示</a>
+                <p class="note">從未排序區選出最小值並放至前端。</p>
+            </article>
+            <article class="card">
+                <a href="insertion_sort.html">插入排序法演示</a>
+                <p class="note">像整理手牌一樣將元素插入已排序區。</p>
+            </article>
+            <article class="card">
+                <a href="merge_sort.html">合併排序法演示</a>
+                <p class="note">遞迴拆分再合併，穩定且效率佳。</p>
+            </article>
+        </section>
+    </main>
 </body>
 </html>
